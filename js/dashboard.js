@@ -88,3 +88,41 @@ function resetForm() {
   btn.textContent = "Add";
   btn.onclick = addTransactionForm;
 }
+function renderTransactions(data) {
+  const tableContainer = document.getElementById("transactions");
+  tableContainer.innerHTML = `
+    <table border="1" width="100%">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Category</th>
+          <th>Note</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${data
+          .map(
+            t => `
+            <tr>
+              <td>${new Date(t.created_at).toLocaleDateString()}</td>
+              <td>${t.type.toUpperCase()}</td>
+              <td>₹${t.amount}</td>
+              <td>${t.category || "-"}</td>
+              <td>${t.note || "-"}</td>
+              <td>
+                <button onclick="editTransaction('${t.id}', ${t.amount}, '${t.type}', '${t.category || ""}', '${t.note || ""}')">✏️ Edit</button>
+                <button onclick="deleteTransaction('${t.id}')">🗑️ Delete</button>
+              </td>
+            </tr>
+          `
+          )
+          .join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+
