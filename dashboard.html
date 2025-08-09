@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head><title>Dashboard</title></head>
+<body>
+  <h2>Dashboard</h2>
+  <button onclick="logout()">Logout</button>
+  <form onsubmit="event.preventDefault(); addTransactionForm();">
+    <input type="number" id="amount" placeholder="Amount" />
+    <select id="type"><option>income</option><option>expense</option></select>
+    <input type="text" id="category" placeholder="Category" />
+    <input type="text" id="note" placeholder="Note" />
+    <button type="submit">Add</button>
+  </form>
+  <div id="transactions"></div>
+
+<script>
+function renderTransactions(data) {
+  const container = document.getElementById("transactions");
+  container.innerHTML = "";
+  data.forEach(t => {
+    const div = document.createElement("div");
+    div.innerHTML = `
+      ${t.type.toUpperCase()}: ₹${t.amount} (${t.category}) - ${t.note}
+      <button onclick="editTransaction('${t.id}', ${t.amount}, '${t.type}', '${t.category}', '${t.note}')">✏️ Edit</button>
+      <button onclick="deleteTransaction('${t.id}')">🗑️ Delete</button>
+    `;
+    container.appendChild(div);
+  });
+}
+</script>
+</body>
+</html>
